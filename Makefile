@@ -1,3 +1,5 @@
+# This file has the steps to do to serve a model.
+
 create_modelstore:
 	mkdir model_store
 
@@ -19,3 +21,7 @@ serve_model:
 
 serve_stop:
 	torchserve --stop
+
+# run this when serve_model is running. A file example_output.png should be created with the processed example image.
+test_example:
+	curl http://localhost:8080/predictions/scale_hyperprior_lightning -T example.png --output example_output.png
