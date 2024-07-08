@@ -17,11 +17,21 @@ archive_model:
 	--extra-files "blocks.py,scale_hyperprior.py,ProgDTD.py,dataset.py,load.py,train.py,val.py"
 
 serve_model:
-	torchserve --start --model-store model_store --models scale_hyperprior_lightning=scale_hyperprior_lightning.mar
+	torchserve --start --model-store model_store --models progdtd=scale_hyperprior_lightning.mar
 
 serve_stop:
 	torchserve --stop
 
-# run this when serve_model is running. A file example_output.png should be created with the processed example image.
+
+docker-build:
+	docker build -t torchserve_progdtd .
+
+docker-run:
+	docker run -p 8080:8080 -p 8081:8081 torchserve_progdtd
+
+docker-kill:
+	docker kill $(shell docker ps -q --filter ancestor=torchserve_progdtd )
+
+# run this when run-image is running. A file example_output.png should be created with the processed example image.
 test_example:
-	curl http://localhost:8080/predictions/scale_hyperprior_lightning -T example.png --output example_output.png
+	curl http://localhost:8080/predictions/progdtd -T example.png --output example_output.png

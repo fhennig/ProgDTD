@@ -121,7 +121,7 @@ class ScaleHyperprior(nn.Module):
         temp_data = likelihood.clone()
         temp_data = torch.where(
             replace == 0.0,
-            torch.cuda.FloatTensor([1.0])[0],
+            torch.FloatTensor([1.0])[0],
             likelihood,
         )
         return temp_data
